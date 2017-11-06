@@ -29,6 +29,7 @@ sadServer.StopListening();
 For now you'll need to create your own implementation of the ServerInformationBase class depending on your needs.
 ```csharp
 // Custom Server Information inheriting from ServerInformationBase
+public class CustomServerInfo : ServerInformationBase
 {
   // The message received from the server as a string
   public string ServerMessage { get; }
