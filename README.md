@@ -31,6 +31,7 @@ You can either use the base implementation of ServerInformation which once insta
 However I'd advise that you create your own implementation of the ServerInformation class based on your needs.
 ```csharp
 // Custom Server Information inheriting from ServerInformationBase
+public class CustomServerInfo : ServerInformationBase
 {
   // The message received from the server as a string
   public string ServerMessage { get; }
