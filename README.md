@@ -9,6 +9,9 @@ A C# NetStandard 2.0 library solution for implementing a lightweight auto discov
 Please see the "ExampleClient" and "ExampleServer" projects included with the source code for a complete example.
 
 ### Server
+
+Install the latest [SADServer](https://www.nuget.org/packages/SADServer) nuget package
+
 #### Setup and Starting
 ```csharp
 // Creates a new auto discovery server that will receive messages on port 8756, reply on port 8757 with the
@@ -26,6 +29,9 @@ sadServer.StopListening();
 
 
 ### Client
+
+Install the latest [SADClient](https://www.nuget.org/packages/SADClient) nuget package
+
 #### Create Server Information class
 You can either use the base implementation of ServerInformation which once instantiated will provide you with the raw data returned by the server in bytes.
 
@@ -52,7 +58,7 @@ var sadClient = new SADClient.AutoDiscoveryClient<CustomServerInfo>(8756, 8757, 
 
 // Searches for servers synchronously for 1000 milliseconds and broadcasts the message "Anyone" and returns
 // a collection of CustomServerInfos representing the servers found.
-IEnumerable<CustomServerInfo> servers = sadClient.FindServers(1000, Encoding.ASCII.GetBytes("Anyone?"));
+IEnumerable<CustomServerInfo> servers = await sadClient.FindServersAsync(1000, Encoding.ASCII.GetBytes("Anyone?"));
 ```
 
 
