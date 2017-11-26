@@ -12,8 +12,13 @@ namespace SADClient
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="SADClient.IAutoDiscoveryClient{T}" />
-    public class AutoDiscoveryClient<T>  : IAutoDiscoveryClient<T> where T : ServerInformationBase
+    public class AutoDiscoveryClient<T>  : IAutoDiscoveryClient<T> where T : ServerInformation
     {
+        /// <summary>
+        /// Occurs when a server is found.
+        /// </summary>
+        public event EventHandler<T> ServerFound;
+
         /// <summary>
         /// The Internet Protocol address to use for receiving broadcast responses
         /// </summary>
@@ -109,37 +114,21 @@ namespace SADClient
         }
 
         /// <summary>
-        /// Finds the servers.
+        /// Searches for servers asynchronously.
         /// </summary>
-        /// <param name="timeToReply">
-        /// The time to wait in milliseconds for broadcast replies.
-        /// </param>
+        /// <param name="timeToReply">The time to wait in milliseconds for broadcast replies.</param>
         /// <param name="message">The message to send the server.</param>
         /// <returns>
         /// A collection of found server informations.
         /// </returns>
-        public virtual IEnumerable<T> FindServers(int timeToReply, byte[] message)
+        public async Task<IEnumerable<T>> FindServersAsync(int timeToReply, byte[] message)
         {
-            // Ensure that 'timeToReply' is a valid value
-            if (timeToReply < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(timeToReply), "Cannot be less than 0");
-            }
-            else if (timeToReply == 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(timeToReply), "Cannot be 0");
-            }
+            this.PreSearchCheck(timeToReply);
 
             // If the message byte array is null we'll just assume the developer wanted no message and make it an empty array
             if (message == null)
             {
                 message = new byte[0];
-            }
-
-            // Make sure a search isn't already running
-            if (this.findingServers)
-            {
-                throw new InvalidOperationException($"{nameof(this.FindServers)} can only be called once at a time, please wait for the last call to {nameof(this.FindServers)} to complete");
             }
 
             this.findingServers = true;
@@ -164,10 +153,12 @@ namespace SADClient
 
                 this.expectedAsyncResult = this.udpClient.BeginReceive(this.OnReceive, null);
 
-                udpClient.SendAsync(message,  message.Length, new IPEndPoint(IPAddress.Broadcast, sendPort));
+#pragma warning disable CS4014
+                // Disable warning because we actually don't care about the return
+                udpClient.SendAsync(message, message.Length, new IPEndPoint(IPAddress.Broadcast, sendPort));
+#pragma warning restore CS4014
 
-                // Perhaps there is a better option for blocking the thread?
-                Task.Delay(timeToReply).Wait();
+                await Task.Delay(timeToReply);
 
                 udpClient.Close();
             }
@@ -205,11 +196,36 @@ namespace SADClient
                     {
                         this.discoveredServers.Add(newDiscoveredServer);
                     }
+
+                    this.ServerFound?.Invoke(this, newDiscoveredServer);
                 }
                 // When the UdpClient is closed the OnReceive will always fire and cause the following exception to be called
                 catch (ObjectDisposedException)
                 {
                 }
+            }
+        }
+
+        /// <summary>
+        /// Checks for valid state and inputs before starting search.
+        /// </summary>
+        /// <param name="timeToReply">The time to give servers to reply to the broadcast.</param>
+        private void PreSearchCheck(int timeToReply)
+        {
+            // Ensure that 'timeToReply' is a valid value
+            if (timeToReply < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(timeToReply), "Cannot be less than 0");
+            }
+            else if (timeToReply == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(timeToReply), "Cannot be 0");
+            }
+
+            // Make sure a search isn't already running
+            if (this.findingServers)
+            {
+                throw new InvalidOperationException($"{nameof(this.FindServersAsync)} can only be called once at a time, please wait for the last call to {nameof(this.FindServersAsync)} to complete");
             }
         }
     }

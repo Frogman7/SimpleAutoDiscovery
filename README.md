@@ -1,6 +1,7 @@
 # SimpleAutoDiscovery (or **SAD** for short)
 
 ## Description
+
 A C# NetStandard 2.0 library solution for implementing a lightweight auto discovery server and client
 
 ## Usage
@@ -26,7 +27,8 @@ sadServer.StopListening();
 
 ### Client
 #### Create Server Information class
-For now you'll need to create your own implementation of the ServerInformationBase class depending on your needs.
+You can either use the base implementation of ServerInformation which once instantiated will provide you with the raw data returned by the server in bytes.  
+However I'd advise that you create your own implementation of the ServerInformation class based on your needs.
 ```csharp
 // Custom Server Information inheriting from ServerInformationBase
 {

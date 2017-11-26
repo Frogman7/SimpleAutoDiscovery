@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>SADServer</PackageId>
+    <Version>1.0.0-Alpha</Version>
+    <Authors>Max Blumenthal</Authors>
+    <Company />
+    <Product>Simple Autodiscovery Server</Product>
+    <Description>A C# NetStandard 2.0 library solution for implementing a simple lightweight autodiscovery server.</Description>
+    <Copyright>Copyright 2017 Max Blumenthal</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/LGPL-2.1</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Frogman7/SimpleAutoDiscovery</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>

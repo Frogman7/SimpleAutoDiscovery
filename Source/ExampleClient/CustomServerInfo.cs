@@ -4,7 +4,7 @@ using System.Net;
 
 namespace ExampleClient
 {
-    public class CustomServerInfo : ServerInformationBase
+    public class CustomServerInfo : ServerInformation
     {
         public string ServerMessage { get; }
 

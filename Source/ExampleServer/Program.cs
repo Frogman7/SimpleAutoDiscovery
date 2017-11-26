@@ -9,7 +9,7 @@ namespace ExampleServer
         {
             Console.WriteLine("Starting Server");
 
-            var sadServer = new SADServer.AutoDiscoveryServer(8756, 8757, Encoding.ASCII.GetBytes("Hello there!"), false);
+            var sadServer = new SADServer.AutoDiscoveryServer(8756, 8757, Encoding.UTF8.GetBytes("Hello there!"), false);
 
             sadServer.OnClientMessageReceived += (obj, messageReceivedArgs) =>
             {

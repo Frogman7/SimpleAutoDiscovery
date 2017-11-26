@@ -14,7 +14,11 @@ namespace ExampleClient
 
             for (int i = 0; i < 5; i++)
             {
-                var servers = sadClient.FindServers(1000, Encoding.ASCII.GetBytes("Anyone?"));
+                var findServersTask = sadClient.FindServersAsync(1000, Encoding.UTF8.GetBytes("Anyone?"));
+
+                findServersTask.Wait();
+
+                var servers = findServersTask.Result;
 
                 if (servers.Any())
                 {

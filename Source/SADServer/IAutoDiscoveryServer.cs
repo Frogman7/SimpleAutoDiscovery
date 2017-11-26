@@ -2,6 +2,9 @@
 
 namespace SADServer
 {
+    /// <summary>
+    /// The interface describing a SAD server.
+    /// </summary>
     public interface IAutoDiscoveryServer
     {
         /// <summary>

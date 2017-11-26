@@ -1,14 +1,22 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SADClient
 {
     /// <summary>
     /// Describes an interface for an AutoDiscovery client that handles the logic of searching for AutoDiscovery servers.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IAutoDiscoveryClient<T> where T : ServerInformationBase
+    /// <typeparam name="T">
+    /// The ServerInformationBase implementation.
+    /// </typeparam>
+    public interface IAutoDiscoveryClient<T> where T : ServerInformation
     {
+        /// <summary>
+        /// Occurs when a server is found.
+        /// </summary>
+        event EventHandler<T> ServerFound;
+
         /// <summary>
         /// Gets a value indicating whether the client is currently searching for servers.
         /// </summary>
@@ -18,7 +26,7 @@ namespace SADClient
         bool FindingServers { get; }
 
         /// <summary>
-        /// Finds the servers.
+        /// Searches for servers asynchronously.
         /// </summary>
         /// <param name="timeToReply">
         /// The time to wait in milliseconds for broadcast replies.
@@ -27,6 +35,6 @@ namespace SADClient
         /// <returns>
         /// A collection of found server informations.
         /// </returns>
-        IEnumerable<T> FindServers(int timeToReply, byte[] message);
+        Task<IEnumerable<T>> FindServersAsync(int timeToReply, byte[] message);
     }
 }
