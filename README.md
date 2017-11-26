@@ -60,6 +60,4 @@ IEnumerable<CustomServerInfo> servers = sadClient.FindServers(1000, Encoding.ASC
 This is more or less a 'proof' of concept at this point, has minimal testing from me, and definately shouldn't be considered production ready.
 
 #### Planned Features
-- Asynchronous support on client when searching for servers
 - Support for UDP multicasting
-- Nuget package
