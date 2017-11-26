@@ -27,8 +27,9 @@ sadServer.StopListening();
 
 ### Client
 #### Create Server Information class
-You can either use the base implementation of ServerInformation which once instantiated will provide you with the raw data returned by the server in bytes.  
-However I'd advise that you create your own implementation of the ServerInformation class based on your needs.
+You can either use the base implementation of ServerInformation which once instantiated will provide you with the raw data returned by the server in bytes.
+
+However I'd advise that you create your own implementation of the ServerInformation class based on your needs like this example
 ```csharp
 // Custom Server Information inheriting from ServerInformationBase
 public class CustomServerInfo : ServerInformationBase
