@@ -33,12 +33,15 @@ sadServer.StopListening();
 Install the latest [SADClient](https://www.nuget.org/packages/SADClient) nuget package
 
 #### Create Server Information class
-You can either use the base implementation of ServerInformation which once instantiated will provide you with the raw data returned by the server in bytes.
+
+The class was by accident left abstract in this release so you WILL need to implement your own ServerInformation class for now but this will be addressed soon with a fix.
+
+~~You can either use the base implementation of ServerInformation which once instantiated will provide you with the raw data returned by the server in bytes.~~
 
 However I'd advise that you create your own implementation of the ServerInformation class based on your needs like this example
 ```csharp
-// Custom Server Information inheriting from ServerInformationBase
-public class CustomServerInfo : ServerInformationBase
+// Custom Server Information inheriting from ServerInformation
+public class CustomServerInfo : ServerInformation
 {
   // The message received from the server as a string
   public string ServerMessage { get; }
