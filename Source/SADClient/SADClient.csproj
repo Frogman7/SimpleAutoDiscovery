@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>SADClient</PackageId>
-    <Version>1.0.0-Alpha</Version>
+    <Version>1.0.1-Alpha</Version>
     <Authors>Max Blumenthal</Authors>
     <Company />
     <Product>Simple Autodiscovery Client</Product>
